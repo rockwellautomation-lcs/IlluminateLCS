@@ -3,73 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Illuminate | Report Navigator</title>
+    <title>Project Illuminate | Full Segment Explorer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; }
-        .chart-container { position: relative; width: 100%; margin: auto; }
-        .chart-container-radar { height: 280px; max-width: 350px; }
-        .custom-scroll::-webkit-scrollbar { width: 5px; }
-        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .report-card { transition: transform 0.2s, box-shadow 0.2s; border-left: 4px solid #e2e8f0; }
-        .report-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-left-color: #0ea5e9; }
-        aside { user-select: none; }
+       .chart-container { position: relative; width: 100%; margin: auto; }
+       .chart-container-radar { height: 260px; max-width: 320px; }
+       .custom-scroll::-webkit-scrollbar { width: 5px; }
+       .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+       .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+       .report-card { transition: all 0.2s ease; border-left: 4px solid #e2e8f0; }
+       .report-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); border-left-color: #0ea5e9; }
     </style>
-    <!-- Chosen Palette: Slate & Sky (Corporate Professional) -->
-    <!-- Application Structure Plan: 
-         - Logic is driven by the 'mapping' key in the REPORTS object. 
-         - If a role ID exists in the mapping, the report is rendered.
-         - Optimized for SharePoint embedding.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
 <body class="h-screen flex flex-col md:flex-row overflow-hidden">
 
-    <!-- Sidebar -->
     <aside class="w-full md:w-72 bg-slate-900 text-slate-300 flex flex-col h-full shadow-xl z-20 flex-shrink-0">
         <div class="p-6 border-b border-slate-800 bg-slate-950">
             <h1 class="text-lg font-bold text-white tracking-tight">Project Illuminate</h1>
-            <p class="text-[10px] text-slate-500 mt-1 uppercase tracking-widest">Role-Based Discovery</p>
+            <p class="text-[10px] text-slate-500 mt-1 uppercase tracking-widest">Lifecycle Services Segment</p>
         </div>
 
         <div class="p-4 overflow-y-auto flex-grow custom-scroll">
             <div class="mb-6">
-                <h3 class="text-[11px] font-bold text-sky-500 uppercase tracking-widest mb-3 px-2">Commercial</h3>
+                <h3 class="text-[11px] font-bold text-sky-500 uppercase tracking-widest mb-3 px-2">Commercial Roles</h3>
                 <div id="commercial-roles-list" class="space-y-1"></div>
             </div>
             <div class="mb-6">
-                <h3 class="text-[11px] font-bold text-emerald-500 uppercase tracking-widest mb-3 px-2">Delivery</h3>
+                <h3 class="text-[11px] font-bold text-emerald-500 uppercase tracking-widest mb-3 px-2">Delivery Roles</h3>
                 <div id="delivery-roles-list" class="space-y-1"></div>
             </div>
         </div>
         
-        <div class="p-4 border-t border-slate-800 text-[10px] text-slate-500 text-center">
-            v1.2 | Lifecycle Services
+        <div class="p-4 border-t border-slate-800 text-[10px] text-slate-500 text-center italic">
+            Select role to map 39 reports
         </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="flex-1 flex flex-col h-full overflow-hidden relative">
         <header class="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center z-10">
             <div>
                 <h2 id="current-role-title" class="text-xl font-bold text-slate-800">Report Explorer</h2>
-                <p id="current-role-desc" class="text-xs text-slate-500 mt-0.5">Select a role to see mapped reports.</p>
+                <p id="current-role-desc" class="text-xs text-slate-500 mt-0.5">Choose a role from the sidebar.</p>
             </div>
             <div id="stats-badge" class="hidden text-xs font-medium text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-200">
-                <span id="report-count" class="text-sky-600 font-bold">0</span> Reports for You
+                <span id="report-count" class="text-sky-600 font-bold">0</span> Mapped Tools
             </div>
         </header>
 
         <div id="dashboard-content" class="flex-1 overflow-y-auto p-4 md:p-8 custom-scroll hidden">
             <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
                 
-                <!-- Left: Analytics -->
                 <div class="lg:col-span-4 space-y-6">
                     <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
-                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Role Data Profile</h3>
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Role Data Focus</h3>
                         <div class="chart-container chart-container-radar">
                             <canvas id="roleRadarChart"></canvas>
                         </div>
@@ -77,16 +66,15 @@
                     </div>
 
                     <div class="bg-slate-800 rounded-xl shadow-lg p-5 text-white">
-                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Core KPIs</h3>
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">High-Impact KPIs</h3>
                         <div id="top-kpi-list" class="flex flex-wrap gap-2"></div>
                     </div>
                 </div>
 
-                <!-- Right: Reports -->
                 <div class="lg:col-span-8">
                     <div class="mb-4 flex items-center justify-between">
-                        <h3 class="font-bold text-slate-800">Available Reports</h3>
-                        <input type="text" id="report-search" placeholder="Filter..." class="text-xs border border-slate-300 rounded-lg px-3 py-2 w-48 outline-none focus:ring-2 focus:ring-sky-500">
+                        <h3 class="font-bold text-slate-800">Your Recommended Toolkit</h3>
+                        <input type="text" id="report-search" placeholder="Search reports..." class="text-xs border border-slate-300 rounded-lg px-3 py-2 w-48 outline-none focus:ring-2 focus:ring-sky-500">
                     </div>
                     <div id="reports-grid" class="space-y-4"></div>
                 </div>
@@ -94,106 +82,481 @@
         </div>
 
         <div id="empty-state" class="flex-1 flex flex-col items-center justify-center text-center p-12">
-            <div class="text-5xl mb-4">🔍</div>
-            <h3 class="text-lg font-bold text-slate-700">Select Your Role</h3>
-            <p class="text-slate-500 max-w-sm mt-2 text-sm">Pick a job role from the sidebar to view your curated report library.</p>
+            <div class="text-5xl mb-4">🚀</div>
+            <h3 class="text-lg font-bold text-slate-700">Strategic Data Orchestration</h3>
+            <p class="text-slate-500 max-w-sm mt-2 text-sm">Select your role to view the full Lifecycle Services analytical framework.</p>
         </div>
     </main>
 
-    <!-- Modal -->
     <div id="detail-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
             <div class="p-6 border-b border-slate-100 flex justify-between items-center bg-slate-50">
-                <h2 id="modal-title" class="text-xl font-bold text-slate-800">Report Title</h2>
+                <h2 id="modal-title" class="text-xl font-bold text-slate-800">Report Details</h2>
                 <button id="close-modal" class="text-slate-400 hover:text-slate-600 text-2xl">&times;</button>
             </div>
             <div class="p-8 overflow-y-auto custom-scroll">
                 <div class="mb-8">
-                    <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">About this Report</h4>
+                    <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">Description & Summary</h4>
                     <p id="modal-desc" class="text-slate-600 leading-relaxed text-sm"></p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div>
-                        <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Target KPIs</h4>
+                        <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Key Metrics</h4>
                         <div id="modal-kpis" class="space-y-2"></div>
                     </div>
                     <div>
-                        <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Role Relevance</h4>
-                        <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-xl text-xs text-emerald-800 italic" id="modal-role-reason"></div>
+                        <h4 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-3">Segment Insight</h4>
+                        <div class="bg-sky-50 border border-sky-100 p-4 rounded-xl text-xs text-sky-800 italic" id="modal-role-reason"></div>
                     </div>
                 </div>
             </div>
-            <div class="p-6 border-t border-slate-100 bg-white flex flex-col sm:flex-row gap-3 justify-end">
-                <button id="modal-close-btn" class="px-6 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-xl">Close</button>
-                <a id="modal-launch-url" href="#" target="_blank" class="px-6 py-2.5 bg-sky-600 hover:bg-sky-700 text-white text-sm font-bold rounded-xl text-center shadow-lg shadow-sky-200">Launch Report ↗</a>
+            <div class="p-6 border-t border-slate-100 bg-white flex gap-3 justify-end">
+                <button id="modal-close-btn" class="px-6 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 rounded-xl">Back</button>
+                <a id="modal-launch-url" href="#" target="_blank" class="px-6 py-2.5 bg-sky-600 hover:bg-sky-700 text-white text-sm font-bold rounded-xl text-center shadow-lg shadow-sky-200">Launch Actual Report ↗</a>
             </div>
         </div>
     </div>
 
     <script>
         /**
-         * MAPPING KEY (Role IDs to use in the 'mapping' objects below):
-         * -----------------------------------------------------------
-         * Commercial: c_app_consultant, c_comm_manager, c_cust_success, c_prop_consultant, c_sales_spec
-         * Delivery: d_clerk, d_consultant, d_digital, d_engineer, d_manager, d_proj_admin, d_proj_manager, d_technician
+         * ROLE DEFINITIONS & FOCUS AREAS
+         * Focus: [Strategic, Operational, Financial, Technical]
          */
-
-        const REPORTS = [
-            {
-                id: "usage",
-                title: "Customer Usage Report",
-                url: "https://app.powerbi.com/groups/me/apps/a3101fc8-b0a6-40ba-be86-c681e98bcc29/reports/623bf5df-a07a-497d-8c52-a13e4960e303/ReportSectionb34e5643a4d35e6bd16f?ctid=855b093e-7340-45c7-9f0c-96150415893e&experience=power-bi",
-                description: "Visualizes interaction with Rockwell services across support and engagement. Useful for resource planning and strategic decision-making.",
-                kpis: ["Ticket Volume", "Resolution Time", "Software Downloads"],
-                mapping: {
-                    'c_cust_success': "Critical for identifying accounts at risk of non-renewal.",
-                    'c_sales_spec': "Identifies active users who might need expanded service contracts.",
-                    'd_manager': "Helps balance team workload based on regional ticket volume.",
-                    'c_comm_manager': "Provides high-level account engagement metrics."
-                }
-            },
-            {
-                id: "global_exec",
-                title: "Global Executive Summary",
-                url: "#", // Paste URL here
-                description: "Assesses lifecycle status, inventory gaps, and obsolescence risk. High-level asset health assessment.",
-                kpis: ["Inventory Gap Count", "Lifecycle Risk Score"],
-                mapping: {
-                    'c_comm_manager': "Primary high-level view for executive customer strategy.",
-                    'c_sales_spec': "Identifies the largest modernization opportunities.",
-                    'c_app_consultant': "Technically baseline for system modernization designs."
-                }
-            },
-            {
-                id: "apollo",
-                title: "LCS PnP APOLLO - Exception Reporting",
-                url: "https://app.powerbi.com/groups/me/apps/ecd037eb-6e59-4901-98bc-121ad6c6d01e/reports/a868b85e-a7b9-48dc-a30e-51961b616e00/ReportSection?ctid=855b093e-7340-45c7-9f0c-96150415893e&experience=power-bi",
-                description: "Tracks overdue and upcoming project milestones to manage delivery timelines and risk.",
-                kpis: ["Late Milestones", "Upcoming Deadlines"],
-                mapping: {
-                    'd_proj_manager': "Essential daily dashboard for keeping projects on schedule.",
-                    'd_manager': "Identify systemic delivery delays across the team.",
-                    'd_engineer': "Keep track of personal technical milestone deadlines.",
-                    'd_proj_admin': "Audit milestone data for administrative accuracy."
-                }
-            }
-            // ADD MORE REPORTS HERE FOLLOWING THE SAME STRUCTURE
+        const ROLES = [
+            { id: 'c_app_consultant', group: 'Commercial', name: 'Application Consultant', focus: [30, 40, 20, 90], desc: "Translates customer needs into technical scope; bridges sales and engineering." },
+            { id: 'c_comm_manager', group: 'Commercial', name: 'Commercial Manager', focus: [90, 30, 95, 10], desc: "Oversees regional business performance, forecasting, and risk mitigation." },
+            { id: 'c_cust_success', group: 'Commercial', name: 'Customer Success', focus: [60, 70, 40, 30], desc: "Drives adoption and value realization; proactively manages retention." },
+            { id: 'c_prop_consultant', group: 'Commercial', name: 'Proposal Consultant', focus: [40, 60, 70, 50], desc: "Leads estimation and pricing for complex bids; manages risk reviews." },
+            { id: 'c_sales_spec', group: 'Commercial', name: 'Sales Specialist', focus: [80, 40, 85, 30], desc: "Drives top-line orders; win strategies for modernizations and service contracts." },
+            { id: 'd_clerk', group: 'Delivery', name: 'Clerk', focus: [5, 95, 60, 10], desc: "Manages administrative tasks, inventory control, and transaction auditing." },
+            { id: 'd_consultant', group: 'Delivery', name: 'Consultant', focus: [50, 60, 30, 85], desc: "Provides expert guidance on digital transformation and system integration." },
+            { id: 'd_digital', group: 'Delivery', name: 'Digital', focus: [40, 50, 20, 100], desc: "Implements RPA, AI, and cybersecurity solutions; focuses on optimization." },
+            { id: 'd_engineer', group: 'Delivery', name: 'Engineer', focus: [10, 90, 10, 100], desc: "Performs programming, commissioning, and on-site troubleshooting." },
+            { id: 'd_manager', group: 'Delivery', name: 'Manager', focus: [60, 90, 80, 40], desc: "Leads engineering teams; manages utilization, competency, and deliverables." },
+            { id: 'd_proj_admin', group: 'Delivery', name: 'Project Administrator', focus: [15, 100, 50, 30], desc: "Coordinates project schedules, material availability, and data hygiene." },
+            { id: 'd_proj_manager', group: 'Delivery', name: 'Project Manager', focus: [50, 100, 90, 40], desc: "Owns project financials; manages budget, scope, schedule, and risk." },
+            { id: 'd_technician', group: 'Delivery', name: 'Technician', focus: [5, 95, 5, 90], desc: "Provides field support, hardware replacement, and reactive maintenance." }
         ];
 
-        const ROLES = [
-            { id: 'c_app_consultant', group: 'Commercial', name: 'Application Consultant', focus: [20, 40, 10, 90], desc: "Focused on technical feasibility and pre-sales solutions." },
-            { id: 'c_comm_manager', group: 'Commercial', name: 'Commercial Manager', focus: [80, 20, 90, 10], desc: "Drives business strategy, revenue performance, and lifecycle planning." },
-            { id: 'c_cust_success', group: 'Commercial', name: 'Customer Success', focus: [40, 60, 30, 40], desc: "Ensures long-term adoption, satisfaction, and renewal stability." },
-            { id: 'c_prop_consultant', group: 'Commercial', name: 'Proposal Consultant', focus: [30, 50, 60, 60], desc: "Structures complex proposals using inventory benchmarks." },
-            { id: 'c_sales_spec', group: 'Commercial', name: 'Sales Specialist', focus: [70, 30, 80, 40], desc: "Identifies modernization triggers and growth in territories." },
-            { id: 'd_clerk', group: 'Delivery', name: 'Clerk', focus: [0, 90, 50, 10], desc: "Supports admin tasks, transactional reporting, and documentation." },
-            { id: 'd_consultant', group: 'Delivery', name: 'Consultant', focus: [40, 60, 20, 80], desc: "Delivers assessments and modernization solutions." },
-            { id: 'd_digital', group: 'Delivery', name: 'Digital', focus: [50, 50, 20, 90], desc: "Focuses on delivery and adoption of software and cloud services." },
-            { id: 'd_engineer', group: 'Delivery', name: 'Engineer', focus: [10, 80, 10, 100], desc: "Executes technical implementation and hardware/software design." },
-            { id: 'd_manager', group: 'Delivery', name: 'Manager', focus: [60, 80, 70, 30], desc: "Oversees team utilization and financial project health." },
-            { id: 'd_proj_admin', group: 'Delivery', name: 'Project Administrator', focus: [10, 100, 40, 20], desc: "Ensures milestone accuracy and resource coordination." },
-            { id: 'd_proj_manager', group: 'Delivery', name: 'Project Manager', focus: [50, 100, 80, 40], desc: "Owns the project lifecycle, budget, timeline, and risk." },
-            { id: 'd_technician', group: 'Delivery', name: 'Technician', focus: [0, 90, 0, 80], desc: "Handles field tasks, repairs, and technical tickets at site." }
+        /**
+         * FULL REPORT DATA & MAPPING (ALL 39 REPORTS)
+         */
+        const REPORTS = [
+            {
+                id: "r1", title: "Customer Usage Report", url: "#",
+                description: "Visualizes customer interaction with Rockwell services across support and engagement. Supports performance tracking.",
+                kpis: ["Engineering Hours", "Ticket Volume", "Resolution Time"],
+                mapping: {
+                    'c_cust_success': "Identifies high-impact customers and software adoption trends.",
+                    'c_sales_spec': "Identify expansion opportunities from usage peaks.",
+                    'c_comm_manager': "Strategic view of account engagement.",
+                    'd_digital': "Monitor adoption of digital service deliverables."
+                }
+            },
+            {
+                id: "r2", title: "Global Executive Summary (Lifecycle)", url: "#",
+                description: "Assesses lifecycle status and obsolescence risk across global sites.",
+                kpis: ["Inventory Gaps", "Obsolescence Risk", "System Usage"],
+                mapping: {
+                    'c_comm_manager': "Evaluates macro-level obsolescence to guide capital investment.",
+                    'c_sales_spec': "Identify large modernization opportunities in territories.",
+                    'c_app_consultant': "Technically baseline for system modernization designs.",
+                    'd_consultant': "High-level planning for global site assessments."
+                }
+            },
+            {
+                id: "r3", title: "Global Renewals Report", url: "#",
+                description: "Visibility into contract renewals, ARR trends, and opportunity performance.",
+                kpis: ["ARR Trends", "Renewal Rates", "Booking Performance"],
+                mapping: {
+                    'c_comm_manager': "Tracks ARR trends and renewal waterfalls to align with AOP goals.",
+                    'c_cust_success': "Monitor retention and expansion flows per contract.",
+                    'c_prop_consultant': "Secondary visibility into expiring ARR potential.",
+                    'c_sales_spec': "Track renewal booking status for territory accounts."
+                }
+            },
+            {
+                id: "r4", title: "Install Base Evaluation (IBE)", url: "#",
+                description: "Detailed view of customer assets, lifecycle status, and inventory accuracy.",
+                kpis: ["Asset Count", "Lifecycle Status", "Inventory Accuracy"],
+                mapping: {
+                    'd_engineer': "Provides facility-level visibility into asset health.",
+                    'c_app_consultant': "Basics for scoping modernization and technical roadmaps.",
+                    'd_technician': "On-site resource for part identification and machine-level tracking.",
+                    'c_sales_spec': "Data-driven hook for modernization discussions."
+                }
+            },
+            {
+                id: "r5", title: "MyEquipment_IBE_Report_MVE", url: "#",
+                description: "Electronic component insights focusing on discontinued parts and system usage.",
+                kpis: ["Discontinued Parts", "System Usage", "Spare Coverage"],
+                mapping: {
+                    'd_technician': "Tracks discontinued parts without spares to mitigate downtime.",
+                    'd_engineer': "Maintenance planning for critical electronic components.",
+                    'd_clerk': "Audit inventory records against physical storeroom data.",
+                    'd_digital': "Review system utilization for digital readiness."
+                }
+            },
+            {
+                id: "r6", title: "Reman & Repair Analytics Tool", url: "#",
+                description: "Tracks repair order performance, core returns, and financial exposure.",
+                kpis: ["Repair Cycle Time", "Core Return Compliance", "Exposure Value"],
+                mapping: {
+                    'd_technician': "Monitors core return compliance for repair cycles.",
+                    'd_clerk': "Administrative audit of outstanding core fees.",
+                    'c_sales_spec': "Identify repair frequency peaks for service agreement pitches.",
+                    'd_manager': "Analyze regional repair efficiency."
+                }
+            },
+            {
+                id: "r7", title: "White Space Analysis", url: "#",
+                description: "Compares customer purchases to Annual Contract Value to find underutilized opportunities.",
+                kpis: ["Purchase Delta", "ACV Capture", "Unused Service Value"],
+                mapping: {
+                    'c_sales_spec': "Uncovers missed revenue by comparing product purchases to ACV.",
+                    'c_comm_manager': "Market penetration analysis for strategic planning.",
+                    'c_cust_success': "Identify service gaps for engagement improvement.",
+                    'c_prop_consultant': "Benchmark for proposal expansion targets."
+                }
+            },
+            {
+                id: "r8", title: "Future of Uptime", url: "#",
+                description: "Tracks alarm activity and SLA compliance across customer sites.",
+                kpis: ["Alarm Response Time", "SLA Compliance", "Active Alarms"],
+                mapping: {
+                    'd_engineer': "Tracks real-time alarm SLA performance to ensure guarantees.",
+                    'd_digital': "Monitor network and digital alarm trends.",
+                    'c_cust_success': "Evidence for value reviews during renewal cycle.",
+                    'd_manager': "Oversight of technical support delivery quality."
+                }
+            },
+            {
+                id: "r9", title: "Insights & Recommendations - Asset", url: "#",
+                description: "Consolidated view of legacy equipment and service coverage gaps.",
+                kpis: ["Legacy Coverage %", "Service Gaps", "Asset Health"],
+                mapping: {
+                    'c_sales_spec': "View legacy network products and coverage gaps to drive upgrades.",
+                    'c_app_consultant': "Prioritize modernization promotions based on equipment health.",
+                    'c_cust_success': "Targeted training or service recommendations for customers.",
+                    'c_prop_consultant': "Technical justification for complex bid scopes."
+                }
+            },
+            {
+                id: "r10", title: "LCS Channel Dashboard", url: "#",
+                description: "Details distributor contributions to revenue growth and contracts.",
+                kpis: ["Distributor Performance", "Channel Mix", "Booking Growth"],
+                mapping: {
+                    'c_comm_manager': "Details distributor contributions to revenue growth.",
+                    'c_sales_spec': "Align with channel partners on territory booking goals.",
+                    'd_manager': "Monitor distributor-led service volumes."
+                }
+            },
+            {
+                id: "r11", title: "Knowledgebase Usage", url: "#",
+                description: "Analyzes customer interaction with TechNotes and documentation.",
+                kpis: ["TechNote Views", "Search Trends", "Deflection Rate"],
+                mapping: {
+                    'd_consultant': "Correlates engagement with ticket deflection to quantify ROI.",
+                    'd_digital': "Monitor self-service adoption for digital content.",
+                    'c_cust_success': "Identify training needs if self-service usage is low.",
+                    'c_app_consultant': "Technical insight into common customer pain points."
+                }
+            },
+            {
+                id: "r12", title: "SIP Dashboard", url: "#",
+                description: "Visualizes renewal performance, booking rates, and dollar retention.",
+                kpis: ["Booking Rate", "Retention Rate", "Pipeline Velocity"],
+                mapping: {
+                    'c_comm_manager': "Tracks quarterly renewal booking rates to measure forecast accuracy.",
+                    'c_prop_consultant': "Short-term pipeline conversion tracking.",
+                    'c_sales_spec': "Monitor target attainment for renewals."
+                }
+            },
+            {
+                id: "r13", title: "ARR Report", url: "#",
+                description: "Consolidated view of Annual Recurring Revenue globally.",
+                kpis: ["Total ARR", "ARR Growth", "Regional Mix"],
+                mapping: {
+                    'c_comm_manager': "Consolidated view of Annual Recurring Revenue trends.",
+                    'd_consultant': "Understand business scale for long-term strategic support.",
+                    'c_sales_spec': "Identify regional opportunities for expansion based on current ARR."
+                }
+            },
+            {
+                id: "r14", title: "Distributor MyServices 2.0", url: "#",
+                description: "Detailed visibility into customer repair activity across contracts.",
+                kpis: ["Repair Count", "Pending Returns", "Service Access"],
+                mapping: {
+                    'd_technician': "Visibility into facility-level repair activity for operations.",
+                    'd_clerk': "Administrative tracking of repair statuses.",
+                    'd_manager': "Resource planning for on-site repair support.",
+                    'd_proj_admin': "Coordinate with distributors on repair deliverables."
+                }
+            },
+            {
+                id: "r15", title: "Service Ticket Dashboard", url: "#",
+                description: "Centralized view of service ticket trends by product and priority.",
+                kpis: ["Open Tickets", "Priority Distribution", "Avg Age"],
+                mapping: {
+                    'd_manager': "Analyzes service demand trends and ticket volume.",
+                    'c_cust_success': "Identify high-pain customers requiring proactive success plans.",
+                    'd_proj_admin': "Monitor ticketing metrics for administrative closure.",
+                    'd_clerk': "Track customer complaint patterns."
+                }
+            },
+            {
+                id: "r16", title: "Repair SPA Tracking & Analysis", url: "#",
+                description: "Insights into remanufacturing operations and pending fee exposure.",
+                kpis: ["Core Aging", "Pending Fees", "Return Velocity"],
+                mapping: {
+                    'd_technician': "Tracks core return aging for distributor operations.",
+                    'd_clerk': "Identify financial risk from late core returns.",
+                    'd_manager': "Evaluate remanufacturing efficiency KPIs."
+                }
+            },
+            {
+                id: "r17", title: "ASM & ISM Return on Value", url: "#",
+                description: "Quantifies business impact of support services (Hours/Value saved).",
+                kpis: ["Value Realized", "Hours Saved", "Productivity %"],
+                mapping: {
+                    'c_cust_success': "Quantifies business impact needed for contract renewals.",
+                    'd_consultant': "Prove delivery value during strategic account reviews.",
+                    'c_comm_manager': "High-level summary of service effectiveness."
+                }
+            },
+            {
+                id: "r18", title: "Distributor_Customer Usage Report", url: "#",
+                description: "Consolidated interaction data across repairs, field service, and software.",
+                kpis: ["Unified Usage", "Cross-Service Engagement", "Service Velocity"],
+                mapping: {
+                    'c_cust_success': "Centralized interaction data for strategic targeting.",
+                    'c_sales_spec': "Identify cross-sell triggers from usage patterns.",
+                    'd_manager': "High-level view of regional customer activity.",
+                    'd_digital': "Monitor software activation and download metrics."
+                }
+            },
+            {
+                id: "r19", title: "Digital Service Access Report", url: "#",
+                description: "Tracks fulfillment status and turnaround for digital service requests.",
+                kpis: ["Access Turnaround", "Fulfillment %", "Request Volume"],
+                mapping: {
+                    'd_digital': "Monitors performance and turnaround for request fulfillment.",
+                    'c_cust_success': "Ensure time-to-value for new digital onboarding.",
+                    'd_consultant': "Review access status during digital consulting engagements."
+                }
+            },
+            {
+                id: "r20", title: "Audit Tool for SO & SC", url: "#",
+                description: "Tracks accuracy of service orders and billing readiness.",
+                kpis: ["Error Rate", "Billing Readiness", "Order Accuracy"],
+                mapping: {
+                    'd_proj_admin': "Identifies documentation gaps to improve billing readiness.",
+                    'd_clerk': "Auditing tool for transaction accuracy.",
+                    'd_proj_manager': "Monitor billing progress for active project orders.",
+                    'd_manager': "Oversight of administrative compliance in the region."
+                }
+            },
+            {
+                id: "r21", title: "Partner Renewals Report", url: "#",
+                description: "Visualizes contract retention flows and global expansion metrics.",
+                kpis: ["Retention Flow", "Expansion Value", "Loss Metrics"],
+                mapping: {
+                    'c_comm_manager': "Visualizes global contract retention flows and churn metrics.",
+                    'c_sales_spec': "Identify accounts with high expansion vs. loss potential.",
+                    'c_cust_success': "Monitor the 'waterfall' of revenue for key accounts."
+                }
+            },
+            {
+                id: "r22", title: "Contract Site Registry Report", url: "#",
+                description: "Centralized view of service contract status and site categorization.",
+                kpis: ["Active Contracts", "Expiration Roadmap", "Site Mix"],
+                mapping: {
+                    'c_sales_spec': "Identifies service contract expiration and site upsells.",
+                    'c_cust_success': "Maintain awareness of account coverage levels.",
+                    'c_prop_consultant': "Registry for verifying current contract terms.",
+                    'd_clerk': "Reference for site-specific repair billing."
+                }
+            },
+            {
+                id: "r23", title: "Closure Overdue", url: "#",
+                description: "Hygiene tool tracking projects past planned finish dates.",
+                kpis: ["Overdue Count", "Financial Exposure", "Backlog Age"],
+                mapping: {
+                    'd_proj_admin': "Hygiene tool tracking projects past planned finish dates.",
+                    'd_clerk': "Identify administrative bottlenecks in project accounting.",
+                    'd_manager': "Monitor portfolio backlog for team capacity.",
+                    'd_proj_manager': "Mitigate financial risk of open/inactive projects."
+                }
+            },
+            {
+                id: "r24", title: "Project Cost", url: "#",
+                description: "Financial dive into actual vs. planned project spending.",
+                kpis: ["Actual vs Planned", "Spending Variance", "EAC"],
+                mapping: {
+                    'd_proj_manager': "Compares actual spending against baselines to protect margins.",
+                    'd_manager': "Regional oversight of project profitability.",
+                    'c_prop_consultant': "Benchmark for future project estimations."
+                }
+            },
+            {
+                id: "r25", title: "Project Revenue", url: "#",
+                description: "Tracks revenue recognition and delivery milestones.",
+                kpis: ["RevRec Status", "Milestone Billing", "Unbilled Revenue"],
+                mapping: {
+                    'd_proj_manager': "Monitors revenue recognition and billing bottlenecks.",
+                    'd_manager': "Financial planning for regional revenue targets.",
+                    'c_comm_manager': "Quarterly performance monitoring of delivery revenue."
+                }
+            },
+            {
+                id: "r26", title: "Transactions T&E", url: "#",
+                description: "Granular audit of labor and expense transactions per employee.",
+                kpis: ["Expense Audit", "Labor Audit", "Unapproved Items"],
+                mapping: {
+                    'd_proj_manager': "Granular audit to resolve customer billing disputes.",
+                    'd_clerk': "Verify transaction logs for administrative accuracy.",
+                    'd_manager': "Audit-level review of regional expenses."
+                }
+            },
+            {
+                id: "r27", title: "GEBS Tasks", url: "#",
+                description: "Tracks operational efficiency of shared service business support.",
+                kpis: ["Task Velocity", "Error Rate", "Support Backlog"],
+                mapping: {
+                    'd_manager': "Identifies administrative bottlenecks in tasks like BOM scrubs.",
+                    'd_proj_admin': "Monitor support status for project-level tasking.",
+                    'd_digital': "Track digital task completion by shared services.",
+                    'd_clerk': "Liaison for transactional GEBS assignments."
+                }
+            },
+            {
+                id: "r28", title: "Hours Analysis for IFS & SAP", url: "#",
+                description: "Breakdown of labor time across billable, overhead, and training.",
+                kpis: ["Billable %", "Training Hours", "Environment Match"],
+                mapping: {
+                    'd_manager': "Optimizes resource planning by analyzing labor allocation.",
+                    'd_proj_manager': "Monitor project team billable accuracy.",
+                    'd_clerk': "Support timesheet auditing and environment reconciliation."
+                }
+            },
+            {
+                id: "r29", title: "Resource Utilization", url: "#",
+                description: "Workforce productivity by cost center and employee.",
+                kpis: ["Utilization Rate", "Over-allocation", "Burnout Index"],
+                mapping: {
+                    'd_manager': "Displays utilization rates by employee to manage burnout risk.",
+                    'd_proj_manager': "Monitor availability of key technical resources.",
+                    'd_proj_admin': "Identify over-allocated staff for schedule adjustments."
+                }
+            },
+            {
+                id: "r30", title: "Regional Utilization", url: "#",
+                description: "Global view of labor efficiency across regions (NA, LA, AP, EMEA).",
+                kpis: ["Global Efficiency", "Regional Capacity", "Labor Output"],
+                mapping: {
+                    'd_manager': "High-level visibility into regional labor efficiency.",
+                    'd_proj_manager': "Identify global capacity for complex delivery packages.",
+                    'c_comm_manager': "Performance reporting for regional labor output."
+                }
+            },
+            {
+                id: "r31", title: "LCS Utilization Gemini", url: "#",
+                description: "Trend-based analysis of segment utilization over time.",
+                kpis: ["Utilization Trend", "Forecast Utilization", "Historical Peak"],
+                mapping: {
+                    'd_manager': "Analysis of utilization trends for strategic segment planning.",
+                    'c_comm_manager': "AOP alignment of labor growth vs. business targets.",
+                    'd_digital': "Monitor Plex and digital service capability utilization.",
+                    'd_consultant': "Analyze capacity for strategic consulting tracks."
+                }
+            },
+            {
+                id: "r32", title: "Parts by SAP Plant and IFS Site", url: "#",
+                description: "Comparative analysis of inventory distribution between ERP platforms.",
+                kpis: ["Inventory Delta", "Plant Value", "Reconciliation Score"],
+                mapping: {
+                    'd_technician': "Ensures supply chain consistency by identifying discrepancies.",
+                    'd_engineer': "Locate inventory across complex plant-platform environments.",
+                    'd_clerk': "Support data reconciliation between SAP and IFS.",
+                    'd_proj_admin': "Verify part availability for scheduled projects."
+                }
+            },
+            {
+                id: "r33", title: "CPS SSB Timesheet (K, Q Projects)", url: "#",
+                description: "Auditing tool for specific project categories and labor accuracy.",
+                kpis: ["K-Project Accuracy", "Labor Compliance", "Q-Project Variance"],
+                mapping: {
+                    'd_proj_manager': "Ensures compliance and labor accuracy for 'K' and 'Q' projects.",
+                    'd_manager': "Audit regional compliance for specialized project types.",
+                    'd_proj_admin': "Tracking weekly accuracy for project timesheets."
+                }
+            },
+            {
+                id: "r34", title: "CPS SSB Timesheet (Functional View)", url: "#",
+                description: "Aggregates hours by functional role and individual contributor.",
+                kpis: ["Functional Hours", "Role Productivity", "Labor Mix"],
+                mapping: {
+                    'd_manager': "Identifies primary labor drivers and top functional contributors.",
+                    'd_proj_manager': "Verify team participation per project phase.",
+                    'd_proj_admin': "Reference for role-based project allocations.",
+                    'd_clerk': "Support labor cost environment audits."
+                }
+            },
+            {
+                id: "r35", title: "Project Portfolio", url: "#",
+                description: "Macro-level view used for global risk and portfolio management.",
+                kpis: ["As Sold Margin", "Active Count", "Portfolio Risk"],
+                mapping: {
+                    'c_comm_manager': "Used for risk management and tracking 'As Sold' margin.",
+                    'd_manager': "Macro-level view of regional delivery hotspots.",
+                    'd_proj_manager': "Benchmark project margin performance against the portfolio.",
+                    'c_sales_spec': "Identify top customers by project volume for expansion."
+                }
+            },
+            {
+                id: "r36", title: "Project Overview", url: "#",
+                description: "Strategic planning tool for margin performance and AOP alignment.",
+                kpis: ["Planned Margin %", "Margin Variance", "Profitability Shifts"],
+                mapping: {
+                    'c_comm_manager': "Pinpoints exactly when and why profitability shifts occur.",
+                    'd_manager': "Strategic financial planning for delivery teams.",
+                    'd_proj_manager': "Identify cost variances against original project plan.",
+                    'c_cust_success': "Understand customer financial engagement for health scores."
+                }
+            },
+            {
+                id: "r37", title: "Project Count Analysis", url: "#",
+                description: "Demand forecasting based on region, customer, and offerings.",
+                kpis: ["Project Volume", "Customer Density", "Offer Mix"],
+                mapping: {
+                    'd_manager': "Operational demand forecasting and regional performance.",
+                    'c_sales_spec': "Identify top-tier customers for account planning.",
+                    'd_proj_manager': "Understand 'where' the most frequent offerings are being delivered.",
+                    'd_proj_admin': "Forecast upcoming administrative workload."
+                }
+            },
+            {
+                id: "r38", title: "LCS Purchasing TITAN – Parts Book", url: "#",
+                description: "Spend analysis and cost optimization for project procurement.",
+                kpis: ["Spend by Supplier", "Project Spend", "Cost Delta"],
+                mapping: {
+                    'c_prop_consultant': "Cost optimization tool analyzing spend by project ID.",
+                    'd_clerk': "Transactional tracking of parts-related spend.",
+                    'd_proj_manager': "Monitor project procurement costs against budget.",
+                    'c_app_consultant': "Benchmarking costs for new system designs."
+                }
+            },
+            {
+                id: "r39", title: "LCS PnP APOLLO Exception", url: "#",
+                description: "Tracks overdue milestones to manage delivery risk proactively.",
+                kpis: ["Late Milestones", "Threshold Warning", "Status Distribution"],
+                mapping: {
+                    'd_proj_manager': "Tracks overdue milestones to proactively manage delivery risk.",
+                    'd_engineer': "Identify approaching technical deadlines.",
+                    'd_manager': "Monitor systemic risk across regional projects.",
+                    'd_technician': "View personal field-task deadlines."
+                }
+            }
         ];
 
         let activeRole = null;
@@ -205,7 +568,7 @@
             ROLES.forEach(role => {
                 const btn = document.createElement('button');
                 btn.className = "role-item w-full text-left px-3 py-2 text-xs rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all flex items-center gap-3";
-                btn.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${role.group === 'Commercial' ? 'bg-sky-500' : 'bg-emerald-500'}"></span> ${role.name}`;
+                btn.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${role.group === 'Commercial'? 'bg-sky-500' : 'bg-emerald-500'}"></span> ${role.name}`;
                 btn.onclick = () => selectRole(role);
                 if(role.group === 'Commercial') commDiv.appendChild(btn);
                 else delDiv.appendChild(btn);
@@ -221,7 +584,7 @@
             document.getElementById('dashboard-content').classList.remove('hidden');
             document.getElementById('stats-badge').classList.remove('hidden');
             document.getElementById('current-role-title').innerText = role.name;
-            document.getElementById('current-role-desc').innerText = `${role.group} Focused Data Tools`;
+            document.getElementById('current-role-desc').innerText = `${role.group} Tool Mapping`;
             document.getElementById('role-context-box').innerText = role.desc;
             updateChart(role.focus);
             renderMappedReports();
@@ -238,15 +601,15 @@
             document.getElementById('report-count').innerText = filtered.length;
             filtered.forEach(report => {
                 const card = document.createElement('div');
-                card.className = "bg-white border border-slate-200 rounded-xl p-5 report-card flex flex-col md:flex-row gap-4 items-start md:items-center justify-between";
+                card.className = "bg-white border border-slate-200 rounded-xl p-4 report-card flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between";
                 card.innerHTML = `
                     <div class="flex-1">
                         <h4 class="font-bold text-slate-800 text-sm mb-1">${report.title}</h4>
-                        <p class="text-xs text-slate-500 line-clamp-1">${report.description}</p>
+                        <p class="text-[11px] text-slate-500 line-clamp-1 italic">"${report.mapping[activeRole.id]}"</p>
                     </div>
-                    <div class="flex gap-2 w-full md:w-auto">
-                        <button onclick="openModal('${report.id}')" class="flex-1 md:flex-none px-4 py-2 text-xs font-semibold text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50">Details</button>
-                        <a href="${report.url}" target="_blank" class="flex-1 md:flex-none px-4 py-2 text-xs font-bold text-white bg-sky-600 rounded-lg text-center">Launch ↗</a>
+                    <div class="flex gap-2 w-full sm:w-auto">
+                        <button onclick="openModal('${report.id}')" class="flex-1 sm:flex-none px-3 py-1.5 text-[10px] font-semibold text-slate-600 border border-slate-200 rounded-lg hover:bg-slate-50">View Details</button>
+                        <a href="${report.url}" target="_blank" class="flex-1 sm:flex-none px-3 py-1.5 text-[10px] font-bold text-white bg-sky-600 rounded-lg text-center">Launch ↗</a>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -269,7 +632,14 @@
                 type: 'radar',
                 data: {
                     labels: ['Strategic', 'Operational', 'Financial', 'Technical'],
-                    datasets: [{ data: data, backgroundColor: 'rgba(14, 165, 233, 0.2)', borderColor: '#0ea5e9', borderWidth: 2, pointRadius: 3 }]
+                    datasets: [{
+                        label: 'Focus',
+                        data: data,
+                        backgroundColor: 'rgba(14, 165, 233, 0.2)',
+                        borderColor: '#0ea5e9',
+                        borderWidth: 2,
+                        pointRadius: 3
+                    }]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
@@ -283,7 +653,7 @@
             const r = REPORTS.find(report => report.id === id);
             document.getElementById('modal-title').innerText = r.title;
             document.getElementById('modal-desc').innerText = r.description;
-            document.getElementById('modal-role-reason').innerText = `"${r.mapping[activeRole.id]}"`;
+            document.getElementById('modal-role-reason').innerText = `Role Context: "${r.mapping[activeRole.id]}"`;
             document.getElementById('modal-launch-url').href = r.url;
             const kpis = document.getElementById('modal-kpis');
             kpis.innerHTML = "";
