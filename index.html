@@ -35,6 +35,10 @@
                 <h3 class="text-[11px] font-bold text-emerald-500 uppercase tracking-widest mb-3 px-2">Delivery Roles</h3>
                 <div id="delivery-roles-list" class="space-y-1"></div>
             </div>
+             <div class="mb-6">
+                <h3 class="text-[11px] font-bold text-emerald-500 uppercase tracking-widest mb-3 px-2">LCS Leadership</h3>
+                <div id="leadership-roles-list" class="space-y-1"></div>
+            </div>
         </div>
         
         <div class="p-4 border-t border-slate-800 text-[10px] text-slate-500 text-center italic">
@@ -135,7 +139,8 @@
             { id: 'd_manager', group: 'Delivery', name: 'Manager', focus: [60, 90, 80, 40], desc: "Leads engineering teams; manages utilization, competency, and deliverables." },
             { id: 'd_proj_admin', group: 'Delivery', name: 'Project Administrator', focus: [15, 100, 50, 30], desc: "Coordinates project schedules, material availability, and data hygiene." },
             { id: 'd_proj_manager', group: 'Delivery', name: 'Project Manager', focus: [50, 100, 90, 40], desc: "Owns project financials; manages budget, scope, schedule, and risk." },
-            { id: 'd_technician', group: 'Delivery', name: 'Technician', focus: [5, 95, 5, 90], desc: "Provides field support, hardware replacement, and reactive maintenance." }
+            { id: 'd_technician', group: 'Delivery', name: 'Technician', focus: [5, 95, 5, 90], desc: "Provides field support, hardware replacement, and reactive maintenance." },
+            { id: 'l_leader', group: 'Leadership', name: 'Leadership', focus: [95, 95, 95, 95], desc: "Provides strategic direction, drives key decisions, and guides teams toward business goals." }
         ];
 
         /**
@@ -158,6 +163,7 @@
                 description: "Assesses lifecycle status and obsolescence risk across global sites. IIQ Roles:  Power BI LFS CSM - Data Consumer Role or Data Set Access: Customer Asset",
                 kpis: ["Inventory Gaps", "Obsolescence Risk", "System Usage"],
                 mapping: {
+                    'l_leader': "Insights on our customer's end-to-end lifecycle from order to delivery.",
                     'c_comm_manager': "Evaluates macro-level obsolescence to guide capital investment.",
                     'c_sales_spec': "Identify large modernization opportunities in territories.",
                     'c_app_consultant': "Technically baseline for system modernization designs.",
@@ -169,6 +175,7 @@
                 description: "Visibility into contract renewals, ARR trends, and opportunity performance. IIQ role: Enterprise Customer Experience (ECX): Reporting Access",
                 kpis: ["ARR Trends", "Renewal Rates", "Booking Performance"],
                 mapping: {
+                    'l_leader': "Insights on Renewals Performance.",
                     'c_comm_manager': "Tracks ARR trends and renewal waterfalls to align with AOP goals.",
                     'c_cust_success': "Monitor retention and expansion flows per contract.",
                     'c_prop_consultant': "Secondary visibility into expiring ARR potential.",
@@ -202,6 +209,7 @@
                 description: "Tracks repair order performance, core returns, and financial exposure. IIQ Role: Power BI LFS CSM - Data Consumer Role",
                 kpis: ["Repair Cycle Time", "Core Return Compliance", "Exposure Value"],
                 mapping: {
+                    'l_leader': "Insights on our contract coverage for the Repairs & Reman business.",
                     'd_technician': "Monitors core return compliance for repair cycles.",
                     'd_clerk': "Administrative audit of outstanding core fees.",
                     'c_sales_spec': "Identify repair frequency peaks for service agreement pitches.",
@@ -213,6 +221,7 @@
                 description: "Uncover hidden ARR targets. Compares customer purchases to Annual Contract Value to find underutilized opportunities. IIQ Role: Power BI LFS CSM - Data Consumer Role",
                 kpis: ["Purchase Delta", "ACV Capture", "Unused Service Value"],
                 mapping: {
+                    'l_leader': "Insights on upselling and cross-selling to key customers.",
                     'c_sales_spec': "Uncovers missed revenue by comparing product purchases to ACV.",
                     'c_comm_manager': "Market penetration analysis for strategic planning.",
                     'c_cust_success': "Identify service gaps for engagement improvement.",
@@ -235,6 +244,7 @@
                 description: "Consolidated view of legacy equipment and service coverage gaps. IIQ Role: Power BI LFS CSM - Data Consumer Role",
                 kpis: ["Legacy Coverage %", "Service Gaps", "Asset Health"],
                 mapping: {
+                    'l_leader': "Insights we provide to customer's based on IBE.",
                     'c_sales_spec': "View legacy network products and coverage gaps to drive upgrades.",
                     'c_app_consultant': "Prioritize modernization promotions based on equipment health.",
                     'c_cust_success': "Targeted training or service recommendations for customers.",
@@ -371,6 +381,7 @@
                 description: "Hygiene tool tracking projects past planned finish dates.",
                 kpis: ["Overdue Count", "Financial Exposure", "Backlog Age"],
                 mapping: {
+                    'l_leader': "Monitor projects past planned finish dates.",
                     'd_proj_admin': "Hygiene tool tracking projects past planned finish dates.",
                     'd_clerk': "Identify administrative bottlenecks in project accounting.",
                     'd_manager': "Monitor portfolio backlog for team capacity.",
@@ -382,6 +393,7 @@
                 description: "Financial dive into actual vs. planned project spending.",
                 kpis: ["Actual vs Planned", "Spending Variance", "EAC"],
                 mapping: {
+                    'l_leader': "Financial dive into actual vs. planned project spending.",
                     'd_proj_manager': "Compares actual spending against baselines to protect margins.",
                     'd_manager': "Regional oversight of project profitability.",
                     'c_prop_consultant': "Benchmark for future project estimations."
@@ -392,6 +404,7 @@
                 description: "Tracks revenue recognition and delivery milestones.",
                 kpis: ["RevRec Status", "Milestone Billing", "Unbilled Revenue"],
                 mapping: {
+                    'l_leader': "Monitor revenue recognition and delivery milestones.",
                     'd_proj_manager': "Monitors revenue recognition and billing bottlenecks.",
                     'd_manager': "Financial planning for regional revenue targets.",
                     'c_comm_manager': "Quarterly performance monitoring of delivery revenue."
@@ -453,6 +466,7 @@
                 description: "Trend-based analysis of segment utilization over time.",
                 kpis: ["Utilization Trend", "Forecast Utilization", "Historical Peak"],
                 mapping: {
+                    'l_leader': "Insight into billable utilization across all LCS Functions and Teams",
                     'd_manager': "Analysis of utilization trends for strategic segment planning.",
                     'c_comm_manager': "AOP alignment of labor growth vs. business targets.",
                     'd_digital': "Monitor Plex and digital service capability utilization.",
@@ -545,6 +559,14 @@
                     'd_manager': "Monitor systemic risk across regional projects.",
                     'd_technician': "View personal field-task deadlines."
                 }
+            },
+            {
+                id: "r40", title: "Operational Excellence Dashboard", url: "https://app.powerbi.com/groups/me/apps/0ee537a1-eedb-47d2-a734-14f8664a1e92/reports/08364d03-bd32-43f5-a677-920cbe84fd90/d94945454aeb93c0dc9e?ctid=855b093e-7340-45c7-9f0c-96150415893e&experience=power-bi",
+                description: "A concise view of key leading and lagging metrics and their impact on overall operational performance.",
+                kpis: ["Revenue", "Orders", "EBV", "Standard Margin", "Commex"],
+                mapping: {
+                    'l_leader': "Insights on the operational performance of LCS by KPI."
+                }
             }
         ];
 
@@ -554,12 +576,14 @@
         function init() {
             const commDiv = document.getElementById('commercial-roles-list');
             const delDiv = document.getElementById('delivery-roles-list');
+            const leaderDiv =  document.getElementById('leadership-roles-list');
             ROLES.forEach(role => {
                 const btn = document.createElement('button');
                 btn.className = "role-item w-full text-left px-3 py-2 text-xs rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all flex items-center gap-3";
-                btn.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${role.group === 'Commercial'? 'bg-sky-500' : 'bg-emerald-500'}"></span> ${role.name}`;
+                btn.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${role.group === 'Commercial'? 'bg-sky-500' : role.group === 'Leadership'? 'bg-MediumPurple-500' :'bg-emerald-500'}"></span> ${role.name}`;
                 btn.onclick = () => selectRole(role);
                 if(role.group === 'Commercial') commDiv.appendChild(btn);
+                else if (role.group === 'Leadership') leaderDiv.appendChild(btn);
                 else delDiv.appendChild(btn);
             });
             document.getElementById('report-search').oninput = (e) => renderMappedReports(e.target.value);
