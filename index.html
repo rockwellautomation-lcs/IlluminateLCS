@@ -599,13 +599,7 @@
         }
 
         function selectRole(role) {
-            activeRole = role;
-            if role.name = "Information" {
-                document.getElementById('empty-state').classList.add('hidden');
-                document.getElementById('dashboard-content').classList.remove('hidden');
-                document.getElementById('stats-badge').classList.remove('hidden');
-                document.getElementById('current-role-title').innerText = role.name;
-            }else    
+            activeRole = role; 
                 document.getElementById('empty-state').classList.add('hidden');
                 document.getElementById('dashboard-content').classList.remove('hidden');
                 document.getElementById('stats-badge').classList.remove('hidden');
@@ -618,7 +612,6 @@
                     el.classList.toggle('bg-slate-800', el.innerText.includes(role.name));
                     el.classList.toggle('text-white', el.innerText.includes(role.name));
             });
-            }
         }
 
         function renderMappedReports(search = "") {
