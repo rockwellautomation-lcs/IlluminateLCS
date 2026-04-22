@@ -94,6 +94,51 @@
             <h3 class="text-lg font-bold text-slate-700">Strategic Data Orchestration</h3>
             <p class="text-slate-500 max-w-sm mt-2 text-sm">Select your role to view the full Lifecycle Services analytical framework.</p>
         </div>
+
+       
+        <div id="info-page" class="flex-1 overflow-y-auto p-4 md:p-8 custom-scroll hidden">
+          <div class="max-w-5xl mx-auto space-y-6">
+            
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+              <h3 class="text-lg font-bold text-slate-800">Welcome to Illuminate LCS</h3>
+              <p class="text-sm text-slate-600 mt-2">
+                Illuminate LCS is a role-based explorer that maps key Power BI tools and reports to how each function
+                drives outcomes across Lifecycle Services.
+              </p>
+            </div>
+        
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">How to Use</h4>
+                <ul class="text-sm text-slate-600 space-y-2 list-disc pl-5">
+                  <li>Select a role from the left sidebar.</li>
+                  <li>Review your recommended toolkit and role context.</li>
+                  <li>Search reports by name and open details for KPI definitions.</li>
+                  <li>Launch the actual report from the toolkit cards.</li>
+                </ul>
+              </div>
+        
+              <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Notes / Disclaimers</h4>
+                <ul class="text-sm text-slate-600 space-y-2 list-disc pl-5">
+                  <li>Access to reports depends on your assigned IIQ role(s).</li>
+                  <li>Some dashboards are regional; “Global” access should be requested only for global roles.</li>
+                  <li>Mappings reflect recommended usage and may evolve as tools change.</li>
+                </ul>
+              </div>
+            </div>
+        
+            <div class="bg-slate-900 rounded-xl shadow-lg p-6 text-slate-100">
+              <h4 class="text-xs font-bold text-yellow-400 uppercase tracking-widest mb-3">Quick Tips</h4>
+              <div class="text-sm text-slate-200 space-y-2">
+                <p>• Use <span class="font-semibold">View Details</span> to see KPIs and role context before launching.</p>
+                <p>• If counts seem low, confirm you’re selecting the correct role and that you have report access.</p>
+              </div>
+            </div>
+        
+          </div>
+        </div>
+        
     </main>
 
     <div id="detail-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
@@ -145,7 +190,7 @@
             { id: 'd_proj_manager', group: 'Delivery', name: ' Manager', focus: [50, 100, 90, 40], desc: "Owns  financials; manages budget, scope, schedule, and risk." },
             { id: 'd_technician', group: 'Delivery', name: 'Technician', focus: [5, 95, 5, 90], desc: "Provides field support, hardware replacement, and reactive maintenance." },
             { id: 'l_leader', group: 'Leadership', name: 'Leadership', focus: [95, 95, 95, 5], desc: "Provides strategic direction, drives key decisions, and guides teams toward business goals." },
-            { id: 'h_info', group: 'Home', name: 'Information', desc: "Welcome to Illuminate LCS." }
+            { id: 'h_info', group: 'Home', name: 'Information', focus: [0, 0, 0, 0], desc: "Welcome to Illuminate LCS." }
         ];
 
         /**
@@ -598,23 +643,48 @@
             document.getElementById('modal-close-btn').onclick = closeModal;
         }
 
+        function showInfoPage() {
+          document.getElementById('empty-state').classList.add('hidden');
+          document.getElementById('dashboard-content').classList.add('hidden');
+          document.getElementById('info-page').classList.remove('hidden');
+          document.getElementById('stats-badge').classList.add('hidden');
+        
+          document.getElementById('current-role-title').innerText = "Information";
+          document.getElementById('current-role-desc').innerText = "Overview & how to use this explorer";
+        }
+        
+        function showDashboardPage() {
+          document.getElementById('info-page').classList.add('hidden');
+          document.getElementById('empty-state').classList.add('hidden');
+          document.getElementById('dashboard-content').classList.remove('hidden');
+          document.getElementById('stats-badge').classList.remove('hidden');
+        }
+
         function selectRole(role) {
-            activeRole = role; 
-                document.getElementById('empty-state').classList.add('hidden');
-                document.getElementById('dashboard-content').classList.remove('hidden');
-                document.getElementById('stats-badge').classList.remove('hidden');
-                document.getElementById('current-role-title').innerText = role.name;
-                document.getElementById('current-role-desc').innerText = `${role.group} Tool Mapping`;
-                document.getElementById('role-context-box').innerText = role.desc;
-                updateChart(role.focus);
-                renderMappedReports();
-                document.querySelectorAll('.role-item').forEach(el => {
-                    el.classList.toggle('bg-slate-800', el.innerText.includes(role.name));
-                    el.classList.toggle('text-white', el.innerText.includes(role.name));
-            });
+          activeRole = role;
+        
+          document.querySelectorAll('.role-item').forEach(el => {
+            const isActive = el.innerText.includes(role.name);
+            el.classList.toggle('bg-slate-800', isActive);
+            el.classList.toggle('text-white', isActive);
+          });
+        
+          if (role.id === 'h_info') {
+            showInfoPage();
+            return;
+          }
+          showDashboardPage();
+        
+          document.getElementById('current-role-title').innerText = role.name;
+          document.getElementById('current-role-desc').innerText = `${role.group} Tool Mapping`;
+          document.getElementById('role-context-box').innerText = role.desc;
+        
+          if (role.focus) updateChart(role.focus);        
+          renderMappedReports();
         }
 
         function renderMappedReports(search = "") {
+            if (!activeRole || activeRole.id === 'h_info') return;
             const grid = document.getElementById('reports-grid');
             grid.innerHTML = "";
             const filtered = REPORTS.filter(r => r.mapping[activeRole.id] && r.title.toLowerCase().includes(search.toLowerCase()));
