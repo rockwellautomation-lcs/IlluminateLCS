@@ -28,6 +28,10 @@
 
         <div class="p-4 overflow-y-auto flex-grow custom-scroll">
             <div class="mb-6">
+                <h3 class="text-[11px] font-bold text-Yellow-300 uppercase tracking-widest mb-3 px-2">Information</h3>
+                <div id="home-list" class="space-y-1"></div>
+            </div>
+            <div class="mb-6">
                 <h3 class="text-[11px] font-bold text-violet-500 uppercase tracking-widest mb-3 px-2">LCS Leadership</h3>
                 <div id="leadership-roles-list" class="space-y-1"></div>
             </div>
@@ -140,7 +144,8 @@
             { id: 'd_proj_admin', group: 'Delivery', name: ' Administrator', focus: [15, 100, 50, 30], desc: "Coordinates  schedules, material availability, and data hygiene." },
             { id: 'd_proj_manager', group: 'Delivery', name: ' Manager', focus: [50, 100, 90, 40], desc: "Owns  financials; manages budget, scope, schedule, and risk." },
             { id: 'd_technician', group: 'Delivery', name: 'Technician', focus: [5, 95, 5, 90], desc: "Provides field support, hardware replacement, and reactive maintenance." },
-            { id: 'l_leader', group: 'Leadership', name: 'Leadership', focus: [95, 95, 95, 5], desc: "Provides strategic direction, drives key decisions, and guides teams toward business goals." }
+            { id: 'l_leader', group: 'Leadership', name: 'Leadership', focus: [95, 95, 95, 5], desc: "Provides strategic direction, drives key decisions, and guides teams toward business goals." },
+            { id: 'h_info', group: 'Home', name: 'Information', desc: "Welcome to Illuminate LCS." }
         ];
 
         /**
@@ -577,13 +582,15 @@
             const commDiv = document.getElementById('commercial-roles-list');
             const delDiv = document.getElementById('delivery-roles-list');
             const leaderDiv =  document.getElementById('leadership-roles-list');
+            const HomeDiv = document.getElementById('home-list');
             ROLES.forEach(role => {
                 const btn = document.createElement('button');
                 btn.className = "role-item w-full text-left px-3 py-2 text-xs rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-all flex items-center gap-3";
-                btn.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${role.group === 'Commercial'? 'bg-sky-500' : role.group === 'Leadership'? 'bg-violet-500' :'bg-emerald-500'}"></span> ${role.name}`;
+                btn.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${role.group === 'Commercial'? 'bg-sky-500' : role.group === 'Home'? 'bg-Yellow-300' : role.group === 'Leadership'? 'bg-violet-500' :'bg-emerald-500'}"></span> ${role.name}`;
                 btn.onclick = () => selectRole(role);
                 if(role.group === 'Commercial') commDiv.appendChild(btn);
                 else if (role.group === 'Leadership') leaderDiv.appendChild(btn);
+                else if (role.group === 'Home') HomeDiv.appendChild(btn);    
                 else delDiv.appendChild(btn);
             });
             document.getElementById('report-search').oninput = (e) => renderMappedReports(e.target.value);
